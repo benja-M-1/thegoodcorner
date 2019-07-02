@@ -7,6 +7,10 @@ help:
 install: ## Install all dependencies
 	go mod tidy
 
+.PHONY: serve
+serve: ## Run the server
+	go run main.go
+
 .PHONY: test
 test: ## Run the tests
 	go test ./...
