@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/benja-M-1/thegoodcorner/fizzbuzz"
+	"github.com/benja-M-1/thegoodcorner/models"
 	"net/http"
 	"strings"
 )
@@ -30,6 +31,13 @@ func FizzbuzzHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Bad request", http.StatusBadRequest)
 		return
 	}
+
+	var req models.Request
+	req.Int1 = payload.Int1
+	req.Int2 = payload.Int2
+	req.Str1 = payload.Str1
+	req.Str1 = payload.Str2
+	req.Insert()
 
 	f := fizzbuzz.Replace(listGenerator(payload), payload.Int1, payload.Str1, payload.Int2, payload.Str2)
 
