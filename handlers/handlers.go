@@ -2,7 +2,9 @@ package handlers
 
 import (
 	"fmt"
+	"github.com/benja-M-1/thegoodcorner/fizzbuzz"
 	"net/http"
+	"strings"
 )
 
 func FizzbuzzHandler(w http.ResponseWriter, r *http.Request) {
@@ -11,6 +13,9 @@ func FizzbuzzHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Fprintf(w, "1,2,fizz,4,buzz,fizz,7,8,fizz,buzz,11,fizz,13,14,fizzbuzz,16")
+	n := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}
+	f := fizzbuzz.Replace(n, 3, "fizz", 5, "buzz")
+
+	fmt.Fprintf(w, strings.Join(f, ","))
 }
 
