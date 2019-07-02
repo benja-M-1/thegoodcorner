@@ -12,6 +12,6 @@ serve: ## Run the server
 	go run main.go
 
 .PHONY: test
-test: ## Run the tests
-	go test ./...
+test: ## Run the tests with benchmark
+	go test ./... -bench=.
 
