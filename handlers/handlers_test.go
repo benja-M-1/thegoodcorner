@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"bytes"
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
@@ -8,10 +9,10 @@ import (
 	"testing"
 )
 
-func TestFizzbuzzHandlerShouldReturnBadRequestWithGET(t *testing.T) {
+func TestFizzbuzzHandlerShouldReturnBadRequestWithGETRequest(t *testing.T) {
 	assert := assert.New(t)
 
-	req, err := http.NewRequest(http.MethodGet, "/fizzbuzz", nil)
+	req, err := http.NewRequest(http.MethodGet, "/fizzbuzz", new(bytes.Buffer))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -21,10 +22,27 @@ func TestFizzbuzzHandlerShouldReturnBadRequestWithGET(t *testing.T) {
 
 	handler.ServeHTTP(rr, req)
 
-	assert.Equal(http.StatusBadRequest, rr.Code, "Fizzbuzz handler should not accept GET method")
+	assert.NotEqual(http.StatusOK, rr.Code, "Fizzbuzz handler should not accept GET method")
 }
 
-func TestFizzbuzzHandlerShouldReturnStringWithPOST(t *testing.T) {
+func TestFizzbuzzHandlerShouldReturnAnErrorWithEmptyPOSTRequest(t *testing.T) {
+	assert := assert.New(t)
+
+	req, err := http.NewRequest(http.MethodPost, "/fizzbuzz", new(bytes.Buffer))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	rr := httptest.NewRecorder()
+	handler := http.HandlerFunc(FizzbuzzHandler)
+
+	handler.ServeHTTP(rr, req)
+
+	assert.Equal(http.StatusBadRequest, rr.Code, "Fizzbuzz handler should not accept POST request with empty body")
+
+}
+
+func TestFizzbuzzHandlerShouldReturnStringWithPOSTRequest(t *testing.T) {
 	assert := assert.New(t)
 
 	data := `{
