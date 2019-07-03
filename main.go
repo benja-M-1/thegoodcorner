@@ -1,7 +1,6 @@
 package main
 
 import (
-	"database/sql"
 	"github.com/benja-M-1/thegoodcorner/app"
 	"github.com/benja-M-1/thegoodcorner/handlers"
 	"github.com/benja-M-1/thegoodcorner/models"
@@ -26,8 +25,8 @@ func main() {
 	defer db.Close()
 	container.DB = db
 
-	fbHandler := handlers.NewFizzBuzzHandler(container)
-	http.HandleFunc("/fizzbuzz", fbHandler.Handle)
+	fb := handlers.NewFizzBuzzHandler(container)
+	http.HandleFunc("/fizzbuzz", fb.Handle)
 	//http.HandleFunc("/stats", handlers.StatisticsHandler)
 
 	log.Fatal(http.ListenAndServe(":80", nil))
@@ -35,7 +34,7 @@ func main() {
 }
 
 // Create the connection to the database and returns it
-func initDatabase() *sql.DB {
+func initDatabase() *models.DB {
 	db, err := models.NewDB(
 		os.Getenv("DB_USERNAME"),
 		os.Getenv("DB_PASSWORD"),

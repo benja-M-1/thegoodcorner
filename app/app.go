@@ -1,7 +1,9 @@
 package app
 
-import "database/sql"
+import (
+	"github.com/benja-M-1/thegoodcorner/models"
+)
 
 type Container struct {
-	DB *sql.DB
+	DB models.Datastore
 }

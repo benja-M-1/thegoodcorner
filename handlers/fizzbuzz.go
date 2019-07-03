@@ -20,29 +20,29 @@ type FizzBuzzHandler struct {
 }
 
 func NewFizzBuzzHandler(c *app.Container) FizzBuzzHandler {
-	f := FizzBuzzHandler{c}
+	h := FizzBuzzHandler{c}
 
-	return f
+	return h
 }
 
-func (f *FizzBuzzHandler) Handle(w http.ResponseWriter, r *http.Request) {
+func (h *FizzBuzzHandler) Handle(w http.ResponseWriter, r *http.Request) {
 	if http.MethodPost != r.Method {
 		http.Error(w, "/fizzbuzz is only accessible with POST method.", http.StatusMethodNotAllowed)
 		return
 	}
 
-	var payload FizzBuzz
+	var f FizzBuzz
 	defer r.Body.Close()
-	err := json.NewDecoder(r.Body).Decode(&payload)
+	err := json.NewDecoder(r.Body).Decode(&f)
 
 	if err != nil {
-		http.Error(w, "Bad request", http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
-	payload.Request.Insert(f.container.DB)
+	h.container.DB.CreateRequest(&f.Request)
 
-	n := fizzbuzz.Replace(listGenerator(payload), payload.Request)
+	n := fizzbuzz.Replace(listGenerator(f), f.Request)
 
 	fmt.Fprintf(w, strings.Join(n, ","))
 }

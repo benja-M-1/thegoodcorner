@@ -7,10 +7,15 @@ import (
 )
 
 type Datastore interface {
-
+	CreateRequest(r *Request) (*Request, error)
+	AllStatistics()
 }
 
-func NewDB(username string, password string, database string, hostname string, port string) (*sql.DB, error) {
+type DB struct {
+	*sql.DB
+}
+
+func NewDB(username string, password string, database string, hostname string, port string) (*DB, error) {
 	var err error
 
 	db, err := sql.Open("postgres",
@@ -23,5 +28,5 @@ func NewDB(username string, password string, database string, hostname string, p
 		return nil, err
 	}
 
-	return db, nil
+	return &DB{db}, nil
 }
