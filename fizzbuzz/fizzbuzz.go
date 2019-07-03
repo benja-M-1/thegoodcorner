@@ -2,25 +2,26 @@ package fizzbuzz
 
 import (
 	"fmt"
+	"github.com/benja-M-1/thegoodcorner/models"
 	"strconv"
 )
 
-func Replace(numbers []int, int1 int, str1 string, int2 int, str2 string) []string {
+func Replace(numbers []int, request models.Request) []string {
 	replaced := make([]string, len(numbers))
 
 	for index, num := range numbers {
 		replacement := strconv.Itoa(num)
 
-		if num%int1 == 0 {
-			replacement = str1
+		if num%request.Int1 == 0 {
+			replacement = request.Str1
 		}
 
-		if num%int2 == 0 {
-			replacement = str2
+		if num%request.Int2 == 0 {
+			replacement = request.Str2
 		}
 
-		if num%int1 == 0 && num%int2 == 0 {
-			replacement = fmt.Sprintf("%v%v", str1, str2)
+		if num%request.Int1 == 0 && num%request.Int2 == 0 {
+			replacement = fmt.Sprintf("%v%v", request.Str1, request.Str2)
 		}
 
 		replaced[index] = replacement

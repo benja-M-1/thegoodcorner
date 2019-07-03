@@ -3,6 +3,7 @@ package handlers
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/benja-M-1/thegoodcorner/app"
 	"github.com/benja-M-1/thegoodcorner/fizzbuzz"
 	"github.com/benja-M-1/thegoodcorner/models"
 	"net/http"
@@ -10,11 +11,8 @@ import (
 )
 
 type FizzBuzz struct {
-	Int1  int    `json:int1`
-	Int2  int    `json:int1`
-	Str1  string `json:str1`
-	Str2  string `json:str1`
-	Limit int    `json:limit`
+	Request models.Request `json:request`
+	Limit   int            `json:limit`
 }
 
 type FizzBuzzHandler struct {
@@ -42,16 +40,11 @@ func (f *FizzBuzzHandler) Handle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var req models.Request
-	req.Int1 = payload.Int1
-	req.Int2 = payload.Int2
-	req.Str1 = payload.Str1
-	req.Str1 = payload.Str2
-	req.Insert()
+	payload.Request.Insert(f.container.DB)
 
-	f := fizzbuzz.Replace(listGenerator(payload), payload.Int1, payload.Str1, payload.Int2, payload.Str2)
+	n := fizzbuzz.Replace(listGenerator(payload), payload.Request)
 
-	fmt.Fprintf(w, strings.Join(f, ","))
+	fmt.Fprintf(w, strings.Join(n, ","))
 }
 
 func listGenerator(f FizzBuzz) []int {
