@@ -27,7 +27,7 @@ func NewFizzBuzzHandler(c *app.Container) FizzBuzzHandler {
 
 func (h *FizzBuzzHandler) Handle(w http.ResponseWriter, r *http.Request) {
 	if http.MethodPost != r.Method {
-		http.Error(w, "/fizzbuzz is only accessible with POST method.", http.StatusMethodNotAllowed)
+		http.Error(w, "Only POST requests are allowed.", http.StatusMethodNotAllowed)
 		return
 	}
 
