@@ -10,18 +10,19 @@ help:
 .PHONY: install
 install: check-dependencies ## Install all dependencies
 	go mod tidy
-	cp -n ${DIST_ENV_FILE} ${ENV_FILE}
+	cp ${DIST_ENV_FILE} ${ENV_FILE}
 
 .PHONY: check-dependencies
 check-dependencies: ## Ensure dependencies are isntalled
 	@docker --version > /dev/null 2>&1 || (echo -e 'docker is not installed\n' && exit 42)
 	@docker ps > /dev/null 2>&1 || (echo -e 'docker is not installed properly, consult the docker installation process\n' && exit 42)
-
 	@docker-compose --version > /dev/null 2>&1 || (echo -e 'docker-compose is not installed\n' && exit 42)
 
 .PHONY: serve
 serve: start ## Run the server
+	$(info Starting API on http://localhost:80)
 	go run main.go
+
 
 .PHONY: test
 test: ## Run the tests with benchmark
