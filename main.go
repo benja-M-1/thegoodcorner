@@ -27,7 +27,9 @@ func main() {
 
 	fb := handlers.NewFizzBuzzHandler(container)
 	http.HandleFunc("/fizzbuzz", fb.Handle)
-	//http.HandleFunc("/stats", handlers.StatisticsHandler)
+
+	s := handlers.NewStatisticsHandler(container)
+	http.HandleFunc("/statistics", s.Handle)
 
 	log.Fatal(http.ListenAndServe(":80", nil))
 

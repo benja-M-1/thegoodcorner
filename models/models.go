@@ -8,7 +8,7 @@ import (
 
 type Datastore interface {
 	CreateRequest(r *Request) (*Request, error)
-	AllStatistics()
+	AllStatistics() ([]*Statistic, error)
 }
 
 type DB struct {

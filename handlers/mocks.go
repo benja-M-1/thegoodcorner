@@ -4,8 +4,8 @@ import "github.com/benja-M-1/thegoodcorner/models"
 
 type mockDB struct{}
 
-func (mDB *mockDB) AllStatistics() {
-	panic("implement me")
+func (mDB *mockDB) AllStatistics() ([]*models.Statistic, error) {
+	return nil, nil
 }
 
 func (mDB *mockDB) CreateRequest(r *models.Request) (*models.Request, error) {

@@ -11,8 +11,8 @@ import (
 )
 
 type FizzBuzz struct {
-	Request models.Request `json:request`
-	Limit   int            `json:limit`
+	Request models.Request `json:"request"`
+	Limit   int            `json:"limit"`
 }
 
 type FizzBuzzHandler struct {

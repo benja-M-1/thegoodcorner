@@ -1,11 +1,11 @@
 package models
 
 type Request struct {
-	Id   int64
-	Int1 int
-	Int2 int
-	Str1 string
-	Str2 string
+	Id   int64  `json:"id,omitempty"`
+	Int1 int    `json:"int1"`
+	Int2 int    `json:"int2"`
+	Str1 string `json:"str1"`
+	Str2 string `json:"str2"`
 }
 
 func (db *DB) CreateRequest(r *Request) (*Request, error) {
