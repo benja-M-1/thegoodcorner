@@ -1,0 +1,14 @@
+language: go
+
+go:
+  - master
+
+services:
+  - postgresql
+
+env:
+  global:
+    - DB_USERNAME=thegooduser
+    - DB_PASSWORD=th3g00dP4sW0rD
+    - DB_DATABASE=thegoodcorner
+    - DB_HOSTNAME=localhost
