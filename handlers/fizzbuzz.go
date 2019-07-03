@@ -17,7 +17,17 @@ type FizzBuzz struct {
 	Limit int    `json:limit`
 }
 
-func FizzbuzzHandler(w http.ResponseWriter, r *http.Request) {
+type FizzBuzzHandler struct {
+	container *app.Container
+}
+
+func NewFizzBuzzHandler(c *app.Container) FizzBuzzHandler {
+	f := FizzBuzzHandler{c}
+
+	return f
+}
+
+func (f *FizzBuzzHandler) Handle(w http.ResponseWriter, r *http.Request) {
 	if http.MethodPost != r.Method {
 		http.Error(w, "/fizzbuzz is only accessible with POST method.", http.StatusMethodNotAllowed)
 		return
