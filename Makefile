@@ -1,3 +1,5 @@
+.DEFAULT_GOAL := test
+
 DIST_ENV_FILE=".env.dist"
 ENV_FILE=".env"
 
