@@ -26,7 +26,7 @@ func (h *StatisticsHandler) Handle(w http.ResponseWriter, r *http.Request) {
 
 	statistics, err := h.container.DB.AllStatistics()
 	if err != nil {
-		log.Fatal(err.Error())
+		log.Println(err.Error())
 		http.Error(w, "Cannot retrieve the statistics", http.StatusInternalServerError)
 		return
 	}
@@ -34,7 +34,7 @@ func (h *StatisticsHandler) Handle(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	err = json.NewEncoder(w).Encode(statistics)
 	if err != nil {
-		log.Fatal(err.Error())
+		log.Println(err.Error())
 		http.Error(w, "Sorry, we could not display the statistics.", http.StatusInternalServerError)
 		return
 	}

@@ -10,17 +10,11 @@ import (
 	"testing"
 )
 
-
 func createFizzBuzzHandler() FizzBuzzHandler {
 	container := &app.Container{DB: &mockDB{}}
 	h := NewFizzBuzzHandler(container)
 
 	return h
-}
-
-type successfulCases struct {
-	input    string
-	expected string
 }
 
 func TestFizzBuzzHandlerOnlyGET(t *testing.T) {
@@ -57,46 +51,26 @@ func TestFizzbuzzHandler(t *testing.T) {
 func TestFizzbuzzHandlerErrors(t *testing.T) {
 	assert := assert.New(t)
 
-	cases := []successfulCases{
-		{
-			"",
-			"",
-		},
-		{
-			"limit=0",
-			"",
-		},
-		{
-			"int1=3&str1=fizz&str2=buzz&limit=11",
-			"1,2,fizz,4,5,fizz,7,8,fizz,10,11",
-		},
-		{
-			"int2=3&str1=fizz&str2=buzz&limit=11",
-			"1,2,fizz,4,5,fizz,7,8,fizz,10,11",
-		},
-		{
-			"int1=2&int2=4&str1=fizz&&limit=8",
-			"1,fizz,3,fizz,5,fizz,7,fizz",
-		},
-		{
-			"int1=2&int2=4&str2=buzz&&limit=8",
-			"1,,3,buzz,5,,7,buzz",
-		},
-		{
-			"int1=3&int2=11&str1=fizz&str2=buzz",
-			"1,2,fizz,4,5,fizz,7,8,fizz,10,11",
-		},
+	cases := []string{
+		"",
+		"limit=0",
+		"int1=3&str1=fizz&str2=buzz&limit=11",
+		"int2=3&str1=fizz&str2=buzz&limit=11",
+		"int1=2&int2=4&str1=fizz&&limit=8",
+		"int1=2&int2=4&str2=buzz&&limit=8",
+		"int1=3&int2=11&str1=fizz&str2=buzz",
+		"int1=3&int2=11&str1=fizz&str2=buzz",
+		"int1=92233720368547758080000=3&int2=11&str1=fizz&str2=buzz&limit=1",
 	}
-
 
 	h := createFizzBuzzHandler()
 	handler := http.HandlerFunc(h.Handle)
 
 	for _, c := range cases {
 		rr := httptest.NewRecorder()
-		req, _ := http.NewRequest(http.MethodGet, fmt.Sprintf("/fizzbuzz?%v", c.input), new(bytes.Buffer))
+		req, _ := http.NewRequest(http.MethodGet, fmt.Sprintf("/fizzbuzz?%v", c), new(bytes.Buffer))
 		handler.ServeHTTP(rr, req)
 
-		assert.Equal(http.StatusBadRequest, rr.Code)
+		assert.Equal(http.StatusBadRequest, rr.Code, rr.Body)
 	}
 }

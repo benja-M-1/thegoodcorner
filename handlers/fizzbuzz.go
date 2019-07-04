@@ -39,9 +39,27 @@ func (h *FizzBuzzHandler) Handle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	int1, _ := strconv.Atoi(keys.Get("int1"))
+	int1, err := strconv.Atoi(keys.Get("int1"))
+	if err != nil {
+		log.Println(err.Error())
+		http.Error(w, "Cannot convert the value of the int1 parameter", http.StatusBadRequest)
+		return
+	}
+
 	int2, _ := strconv.Atoi(keys.Get("int2"))
+	if err != nil {
+		log.Println(err.Error())
+		http.Error(w, "Cannot convert the value of the int2 parameter", http.StatusBadRequest)
+		return
+	}
+
 	limit, _ := strconv.Atoi(keys.Get("limit"))
+	if err != nil {
+		log.Println(err.Error())
+		http.Error(w, "Cannot convert the value of the limit parameter", http.StatusBadRequest)
+		return
+	}
+
 	str1 := keys.Get("str1")
 	str2 := keys.Get("str2")
 
@@ -51,7 +69,7 @@ func (h *FizzBuzzHandler) Handle(w http.ResponseWriter, r *http.Request) {
 	// We don't return an http error here
 	// If the save of the fizzbuzz request fails we can send a response to the user anyway
 	if err != nil {
-		log.Fatal(err.Error())
+		log.Println(err.Error())
 	}
 
 	n := fizzbuzz.Replace(listGenerator(limit), fizzbuzzRequest)
