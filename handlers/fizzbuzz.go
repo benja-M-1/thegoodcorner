@@ -1,11 +1,13 @@
 package handlers
 
 import (
+	"errors"
 	"fmt"
 	"github.com/benja-M-1/thegoodcorner/app"
 	"github.com/benja-M-1/thegoodcorner/fizzbuzz"
 	"github.com/benja-M-1/thegoodcorner/models"
 	"net/http"
+	"net/url"
 	"strconv"
 	"strings"
 )
@@ -22,6 +24,11 @@ func NewFizzBuzzHandler(c *app.Container) FizzBuzzHandler {
 
 func (h *FizzBuzzHandler) Handle(w http.ResponseWriter, r *http.Request) {
 	keys := r.URL.Query()
+
+	err := validate(keys)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+	}
 
 	int1, _ := strconv.Atoi(keys.Get("int1"))
 	int2, _ := strconv.Atoi(keys.Get("int2"))
@@ -48,4 +55,16 @@ func listGenerator(limit int) []int {
 	}
 
 	return l
+}
+
+func validate(v url.Values) error {
+	keys := []string{"int1", "int2", "str1", "str2", "limit"}
+
+	for _, key := range keys {
+		if _, ok := v[key]; !ok {
+			return errors.New(fmt.Sprintf("Missing '%v' parameter", key))
+		}
+	}
+
+	return nil
 }
