@@ -3,6 +3,7 @@ package handlers
 import (
 	"encoding/json"
 	"github.com/benja-M-1/thegoodcorner/app"
+	"log"
 	"net/http"
 )
 
@@ -25,12 +26,16 @@ func (h *StatisticsHandler) Handle(w http.ResponseWriter, r *http.Request) {
 
 	statistics, err := h.container.DB.AllStatistics()
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		log.Fatal(err.Error())
+		http.Error(w, "Cannot retrieve the statistics", http.StatusInternalServerError)
+		return
 	}
 
 	w.Header().Set("Content-Type", "application/json")
 	err = json.NewEncoder(w).Encode(statistics)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		log.Fatal(err.Error())
+		http.Error(w, "Sorry, we could not display the statistics.", http.StatusInternalServerError)
+		return
 	}
 }
