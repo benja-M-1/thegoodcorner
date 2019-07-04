@@ -75,7 +75,7 @@ func validate(v url.Values) error {
 	}
 
 	if len(missingParams) > 0 {
-		return errors.New(fmt.Sprintf("Missing '%v' parameter", strings.Join(missingParams, ", ")))
+		return errors.New(fmt.Sprintf("Missing '%v' parameter(s)", strings.Join(missingParams, ", ")))
 	}
 
 	return nil
