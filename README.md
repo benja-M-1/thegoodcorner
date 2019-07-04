@@ -48,3 +48,5 @@ curl -X GET http://localhost:80/statistics
 - [] Add more documentation
 - [] Improve logging
 - [] Add more benchmark tests
+- [] Use a router
+- [] Use an ORM (pop ?)
