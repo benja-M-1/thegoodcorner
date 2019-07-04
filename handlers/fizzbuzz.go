@@ -29,10 +29,11 @@ func (h *FizzBuzzHandler) Handle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	var err error
 
 	keys := r.URL.Query()
 
-	err := validate(keys)
+	err = validate(keys)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
