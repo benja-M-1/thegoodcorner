@@ -47,5 +47,4 @@ curl -X GET http://localhost:80/statistics
 
 - [] Add more documentation
 - [] Improve logging
-- [] Add validation on parameter of /fizzbuzz endpoint
 - [] Add more benchmark tests
