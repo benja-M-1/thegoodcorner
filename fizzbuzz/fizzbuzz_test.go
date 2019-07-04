@@ -68,7 +68,7 @@ var fizzbuzzCases = []fizzbuzzTest{
 func TestFizzbuzz(t *testing.T) {
 	for _, test := range fizzbuzzCases {
 		fizzbuzz := Replace(test.n, test.r)
-		assert.Equal(t, test.expected, fizzbuzz, "Should replace 3 by fizz and 5 by buzz")
+		assert.Equalf(t, test.expected, fizzbuzz, "Should replace %v by %v and %v by %v", test.r.Int1, test.r.Str1, test.r.Int2, test.r.Str2)
 	}
 }
 
