@@ -6,6 +6,7 @@ import (
 	"github.com/benja-M-1/thegoodcorner/app"
 	"github.com/benja-M-1/thegoodcorner/fizzbuzz"
 	"github.com/benja-M-1/thegoodcorner/models"
+	"log"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -40,7 +41,10 @@ func (h *FizzBuzzHandler) Handle(w http.ResponseWriter, r *http.Request) {
 
 	fizzbuzzRequest := models.FizzbuzzRequest{0, int1, int2, str1, str2}
 
-	h.container.DB.CreateRequest(&fizzbuzzRequest)
+	_, err = h.container.DB.CreateRequest(&fizzbuzzRequest)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
 
 	n := fizzbuzz.Replace(listGenerator(limit), fizzbuzzRequest)
 
