@@ -48,6 +48,8 @@ func (h *FizzBuzzHandler) Handle(w http.ResponseWriter, r *http.Request) {
 	fizzbuzzRequest := models.FizzbuzzRequest{0, int1, int2, str1, str2}
 
 	_, err = h.container.DB.CreateRequest(&fizzbuzzRequest)
+	// We don't return an http error here
+	// If the save of the fizzbuzz request fails we can send a response to the user anyway
 	if err != nil {
 		log.Fatal(err.Error())
 	}
