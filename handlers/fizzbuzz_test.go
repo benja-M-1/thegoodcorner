@@ -23,6 +23,19 @@ type successfulCases struct {
 	expected string
 }
 
+func TestFizzBuzzHandlerOnlyGET(t *testing.T) {
+	assert := assert.New(t)
+
+	h := createFizzBuzzHandler()
+	handler := http.HandlerFunc(h.Handle)
+
+	rr := httptest.NewRecorder()
+	req, _ := http.NewRequest(http.MethodPost, "/fizzbuzz", new(bytes.Buffer))
+	handler.ServeHTTP(rr, req)
+
+	assert.HTTPBodyContains(handler, http.MethodPost, "/fizzbuzz", nil, "Only GET requests are allowed.")
+}
+
 func TestFizzbuzzHandler(t *testing.T) {
 	assert := assert.New(t)
 
