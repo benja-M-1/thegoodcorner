@@ -24,6 +24,11 @@ func NewFizzBuzzHandler(c *app.Container) FizzBuzzHandler {
 }
 
 func (h *FizzBuzzHandler) Handle(w http.ResponseWriter, r *http.Request) {
+	if http.MethodGet != r.Method {
+		http.Error(w, "Only GET requests are allowed.", http.StatusMethodNotAllowed)
+		return
+	}
+
 
 	keys := r.URL.Query()
 
