@@ -23,11 +23,13 @@ func NewFizzBuzzHandler(c *app.Container) FizzBuzzHandler {
 }
 
 func (h *FizzBuzzHandler) Handle(w http.ResponseWriter, r *http.Request) {
+
 	keys := r.URL.Query()
 
 	err := validate(keys)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
 	}
 
 	int1, _ := strconv.Atoi(keys.Get("int1"))
@@ -57,13 +59,19 @@ func listGenerator(limit int) []int {
 	return l
 }
 
+// Validates that the values contained in the query of an url contains the required keys
 func validate(v url.Values) error {
 	keys := []string{"int1", "int2", "str1", "str2", "limit"}
+	missingParams := []string{}
 
 	for _, key := range keys {
 		if _, ok := v[key]; !ok {
-			return errors.New(fmt.Sprintf("Missing '%v' parameter", key))
+			missingParams = append(missingParams, key)
 		}
+	}
+
+	if len(missingParams) > 0 {
+		return errors.New(fmt.Sprintf("Missing '%v' parameter", strings.Join(missingParams, ", ")))
 	}
 
 	return nil
