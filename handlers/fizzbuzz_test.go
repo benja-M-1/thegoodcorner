@@ -2,11 +2,11 @@ package handlers
 
 import (
 	"bytes"
+	"fmt"
 	"github.com/benja-M-1/thegoodcorner/app"
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
-	"strings"
 	"testing"
 )
 
@@ -16,45 +16,6 @@ func createFizzBuzzHandler() FizzBuzzHandler {
 	h := NewFizzBuzzHandler(container)
 
 	return h
-}
-
-func TestFizzbuzzHandlerShouldAllowOnlyPost(t *testing.T) {
-	assert := assert.New(t)
-
-	rr := httptest.NewRecorder()
-
-	fbH := createFizzBuzzHandler()
-	handler := http.HandlerFunc(fbH.Handle)
-
-	req, _ := http.NewRequest(http.MethodGet, "/fizzbuzz", new(bytes.Buffer))
-	handler.ServeHTTP(rr, req)
-
-	assert.NotEqual(http.StatusOK, rr.Code, "Fizzbuzz handler should not accept GET method")
-}
-
-func TestFizzbuzzHandlerShouldReturnABadRequest(t *testing.T) {
-	assert := assert.New(t)
-
-	cases := []string{
-		`{
-			"request": {
-				int1: 1
-			}
-			"limit": 0
-		}`,
-		"",
-	}
-	rr := httptest.NewRecorder()
-
-	fbH := createFizzBuzzHandler()
-	handler := http.HandlerFunc(fbH.Handle)
-
-	for _, c := range cases {
-		req, _ := http.NewRequest(http.MethodPost, "/fizzbuzz", strings.NewReader(c))
-		handler.ServeHTTP(rr, req)
-
-		assert.Equalf(http.StatusBadRequest, rr.Code, "Fizzbuzz handler should not accept POST request with body %v", c)
-	}
 }
 
 type successfulCases struct {
@@ -67,47 +28,41 @@ func TestFizzbuzzHandler(t *testing.T) {
 
 	cases := []successfulCases{
 		{
-			`{}`,
+			"",
 			"",
 		},
 		{
-			`{
-				"request": {}
-			}`,
+			"limit=0",
 			"",
 		},
 		{
-			`{
-				"limit": 0
-			}`,
-			"",
-		},
-		{
-			`{
-				"request": {
-					"int1": 3,
-					"int2": 5,
-					"str1": "fizz",
-					"str2": "buzz"
-				},
-				"limit": 16
-			}`,
+			"int1=3&int2=5&str1=fizz&str2=buzz&limit=16",
 			"1,2,fizz,4,buzz,fizz,7,8,fizz,buzz,11,fizz,13,14,fizzbuzz,16",
+		},
+		{
+			"int1=3&str1=fizz&str2=buzz&limit=11",
+			"1,2,fizz,4,5,fizz,7,8,fizz,10,11",
+		},
+		{
+			"int1=2&int2=4&str2=buzz&&limit=8",
+			"1,,3,buzz,5,,7,buzz",
+		},
+		{
+			"int1=2&int2=4&str1=fizz&&limit=8",
+			"1,fizz,3,fizz,5,fizz,7,fizz",
 		},
 	}
 
-	rr := httptest.NewRecorder()
 
-	fbH := createFizzBuzzHandler()
-	handler := http.HandlerFunc(fbH.Handle)
+	h := createFizzBuzzHandler()
+	handler := http.HandlerFunc(h.Handle)
 
 	for _, c := range cases {
-		req, _ := http.NewRequest(http.MethodPost, "/fizzbuzz", strings.NewReader(c.input))
+		rr := httptest.NewRecorder()
+		req, _ := http.NewRequest(http.MethodGet, fmt.Sprintf("/fizzbuzz?%v", c.input), new(bytes.Buffer))
 		handler.ServeHTTP(rr, req)
 
-		assert.Equal(http.StatusOK, rr.Code, "Fizzbuzz handler should accept POST request")
-
-		assert.Equal(c.expected, rr.Body.String(), "Fizzbuzz handler should return the list of integers with 3 replaced by fizz and 5 replaced by buzz")
-
+		assert.Equal(http.StatusOK, rr.Code)
+		assert.Equalf(c.expected, rr.Body.String(), "Fizzbuzz handler should return the list of integers with request %v", c.input)
 	}
 }

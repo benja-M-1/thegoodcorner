@@ -1,19 +1,14 @@
 package handlers
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/benja-M-1/thegoodcorner/app"
 	"github.com/benja-M-1/thegoodcorner/fizzbuzz"
 	"github.com/benja-M-1/thegoodcorner/models"
 	"net/http"
+	"strconv"
 	"strings"
 )
-
-type FizzBuzz struct {
-	Request models.Request `json:"request"`
-	Limit   int            `json:"limit"`
-}
 
 type FizzBuzzHandler struct {
 	container *app.Container
@@ -26,30 +21,26 @@ func NewFizzBuzzHandler(c *app.Container) FizzBuzzHandler {
 }
 
 func (h *FizzBuzzHandler) Handle(w http.ResponseWriter, r *http.Request) {
-	if http.MethodPost != r.Method {
-		http.Error(w, "Only POST requests are allowed.", http.StatusMethodNotAllowed)
-		return
-	}
+	keys := r.URL.Query()
 
-	var f FizzBuzz
-	defer r.Body.Close()
-	err := json.NewDecoder(r.Body).Decode(&f)
+	int1, _ := strconv.Atoi(keys.Get("int1"))
+	int2, _ := strconv.Atoi(keys.Get("int2"))
+	limit, _ := strconv.Atoi(keys.Get("limit"))
+	str1 := keys.Get("str1")
+	str2 := keys.Get("str2")
 
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
-	}
+	req := models.Request{0, int1, int2, str1, str2}
 
-	h.container.DB.CreateRequest(&f.Request)
+	h.container.DB.CreateRequest(&req)
 
-	n := fizzbuzz.Replace(listGenerator(f), f.Request)
+	n := fizzbuzz.Replace(listGenerator(limit), req)
 
 	fmt.Fprintf(w, strings.Join(n, ","))
 }
 
-func listGenerator(f FizzBuzz) []int {
+func listGenerator(limit int) []int {
 	start := 1
-	l := make([]int, f.Limit)
+	l := make([]int, limit)
 
 	for i := range l {
 		l[i] = start

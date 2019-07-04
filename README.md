@@ -34,27 +34,13 @@ Finally run `make server` to start the API.
 Make a request on `/fizzbuzz`:
 
 ```bash
-curl -X POST \
-  http://localhost:80/fizzbuzz \
-  -H 'Content-Type: application/json' \
-  -H 'cache-control: no-cache' \
-  -d '{
-    "request": {
-    	"int1": 2,
-	    "int2": 3,
-	    "str1": "fizz",
-	    "str2": "buzz"
-    },
-    "limit": 50
-}'
+curl -X GET "http://localhost:80/fizzbuzz?int1=2&int2=4&str1=fizz&str2=buzz&limit=50"
 ```
 
 Fetch the statistics on `/statistics`:
 
 ```bash
-curl -X GET \
-  http://localhost:80/statistics \
-  -H 'cache-control: no-cache'
+curl -X GET http://localhost:80/statistics
 ```
 
 ## Improvements

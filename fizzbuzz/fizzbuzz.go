@@ -12,15 +12,15 @@ func Replace(numbers []int, request models.Request) []string {
 	for index, num := range numbers {
 		replacement := strconv.Itoa(num)
 
-		if num%request.Int1 == 0 {
+		if request.Int1 > 0 && num%request.Int1 == 0 {
 			replacement = request.Str1
 		}
 
-		if num%request.Int2 == 0 {
+		if request.Int2 > 0 && num%request.Int2 == 0 {
 			replacement = request.Str2
 		}
 
-		if num%request.Int1 == 0 && num%request.Int2 == 0 {
+		if request.Int1 > 0 && num%request.Int1 == 0 && request.Int2 > 0 && num%request.Int2 == 0 {
 			replacement = fmt.Sprintf("%v%v", request.Str1, request.Str2)
 		}
 

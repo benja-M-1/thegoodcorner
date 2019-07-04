@@ -37,11 +37,31 @@ var fizzbuzzCases = []fizzbuzzTest{
 		n: []int{1, 2, 3, 4, 5, 6, 7, 8},
 		r: models.Request{
 			Int1: 2,
-			Int2: 4,
+			Int2: 0,
+			Str1: "",
+			Str2: "",
+		},
+		expected: []string{"1", "", "3", "", "5", "", "7", ""},
+	},
+	{
+		n: []int{1, 2, 3, 4, 5, 6, 7, 8},
+		r: models.Request{
+			Int1: 0,
+			Int2: 2,
+			Str1: "fizz",
+			Str2: "",
+		},
+		expected: []string{"1", "", "3", "", "5", "", "7", ""},
+	},
+	{
+		n: []int{1, 2, 3, 4, 5, 6, 7, 8},
+		r: models.Request{
+			Int1: 0,
+			Int2: 2,
 			Str1: "fizz",
 			Str2: "buzz",
 		},
-		expected: []string{"1", "fizz", "3", "fizzbuzz", "5", "fizz", "7", "fizzbuzz"},
+		expected: []string{"1", "buzz", "3", "buzz", "5", "buzz", "7", "buzz"},
 	},
 }
 
