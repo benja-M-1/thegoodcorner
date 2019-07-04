@@ -42,11 +42,3 @@ Fetch the statistics on `/statistics`:
 ```bash
 curl -X GET http://localhost:80/statistics
 ```
-
-## Improvements
-
-- [] Add more documentation
-- [] Improve logging
-- [] Add more benchmark tests
-- [] Use a router
-- [] Use an ORM (pop ?)
