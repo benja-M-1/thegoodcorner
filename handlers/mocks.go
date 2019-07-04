@@ -8,7 +8,7 @@ func (mDB *mockDB) AllStatistics() ([]*models.Statistic, error) {
 	return nil, nil
 }
 
-func (mDB *mockDB) CreateRequest(r *models.Request) (*models.Request, error) {
+func (mDB *mockDB) CreateRequest(r *models.FizzbuzzRequest) (*models.FizzbuzzRequest, error) {
 	r.Id = 1
 	return r, nil
 }

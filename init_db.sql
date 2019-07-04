@@ -1,4 +1,4 @@
-CREATE TABLE requests (
+CREATE TABLE fizzbuzz_requests (
     id serial PRIMARY KEY,
     int1 INTEGER NOT NULL,
     int2 INTEGER NOT NULL,

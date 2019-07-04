@@ -36,11 +36,11 @@ func (h *FizzBuzzHandler) Handle(w http.ResponseWriter, r *http.Request) {
 	str1 := keys.Get("str1")
 	str2 := keys.Get("str2")
 
-	req := models.Request{0, int1, int2, str1, str2}
+	fizzbuzzRequest := models.FizzbuzzRequest{0, int1, int2, str1, str2}
 
-	h.container.DB.CreateRequest(&req)
+	h.container.DB.CreateRequest(&fizzbuzzRequest)
 
-	n := fizzbuzz.Replace(listGenerator(limit), req)
+	n := fizzbuzz.Replace(listGenerator(limit), fizzbuzzRequest)
 
 	fmt.Fprintf(w, strings.Join(n, ","))
 }

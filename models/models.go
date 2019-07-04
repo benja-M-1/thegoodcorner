@@ -7,7 +7,7 @@ import (
 )
 
 type Datastore interface {
-	CreateRequest(r *Request) (*Request, error)
+	CreateRequest(r *FizzbuzzRequest) (*FizzbuzzRequest, error)
 	AllStatistics() ([]*Statistic, error)
 }
 

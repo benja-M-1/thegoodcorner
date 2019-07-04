@@ -8,14 +8,14 @@ import (
 
 type fizzbuzzTest struct {
 	n        []int
-	r        models.Request
+	r        models.FizzbuzzRequest
 	expected []string
 }
 
 var fizzbuzzCases = []fizzbuzzTest{
 	{
 		n: []int{},
-		r: models.Request{
+		r: models.FizzbuzzRequest{
 			Int1: 3,
 			Int2: 5,
 			Str1: "fizz",
@@ -25,7 +25,7 @@ var fizzbuzzCases = []fizzbuzzTest{
 	},
 	{
 		n: []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16},
-		r: models.Request{
+		r: models.FizzbuzzRequest{
 			Int1: 3,
 			Int2: 5,
 			Str1: "fizz",
@@ -35,7 +35,7 @@ var fizzbuzzCases = []fizzbuzzTest{
 	},
 	{
 		n: []int{1, 2, 3, 4, 5, 6, 7, 8},
-		r: models.Request{
+		r: models.FizzbuzzRequest{
 			Int1: 2,
 			Int2: 0,
 			Str1: "",
@@ -45,7 +45,7 @@ var fizzbuzzCases = []fizzbuzzTest{
 	},
 	{
 		n: []int{1, 2, 3, 4, 5, 6, 7, 8},
-		r: models.Request{
+		r: models.FizzbuzzRequest{
 			Int1: 0,
 			Int2: 2,
 			Str1: "fizz",
@@ -55,7 +55,7 @@ var fizzbuzzCases = []fizzbuzzTest{
 	},
 	{
 		n: []int{1, 2, 3, 4, 5, 6, 7, 8},
-		r: models.Request{
+		r: models.FizzbuzzRequest{
 			Int1: 0,
 			Int2: 2,
 			Str1: "fizz",

@@ -6,7 +6,7 @@ import (
 	"strconv"
 )
 
-func Replace(numbers []int, request models.Request) []string {
+func Replace(numbers []int, request models.FizzbuzzRequest) []string {
 	replaced := make([]string, len(numbers))
 
 	for index, num := range numbers {
