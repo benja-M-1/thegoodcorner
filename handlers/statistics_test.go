@@ -16,7 +16,6 @@ func createStatisticsHandler() StatisticsHandler {
 	return h
 }
 
-
 func TestStatisticsHandler(t *testing.T) {
 	assert := assert.New(t)
 

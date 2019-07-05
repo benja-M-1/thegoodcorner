@@ -12,5 +12,3 @@ func (mDB *mockDB) CreateRequest(r *models.FizzbuzzRequest) (*models.FizzbuzzReq
 	r.Id = 1
 	return r, nil
 }
-
-
