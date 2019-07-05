@@ -24,12 +24,13 @@ Add a statistics endpoint allowing users to know what the most frequent request 
 ## Run the API
 
 First install the project running `make install`.
+
 Then create the database replacing ${DB_USERNAME}, ${DB_HOSTNAME} and ${DB_DATABASE} with the values contained in `.env` file:
 ```bash
 docker-compose exec db psql --username=${DB_USENAME} --host=${DB_HOSTNAME} --dbname=${DB_DATABASE} -a --file=init_db.sql
 ```
 
-Finally run `make server` to start the API.
+Finally run `make serve` to start the API.
 
 Make a request on `/fizzbuzz`:
 
