@@ -7,3 +7,17 @@ CREATE TABLE fizzbuzz_requests (
 );
 
 CREATE INDEX request ON fizzbuzz_requests (int1, int2, str1, str2);
+
+/* Populate the table with many values */
+INSERT INTO fizzbuzz_requests(int1, int2, str1, str2) SELECT generate_series(1,100) AS int1, generate_series(1, 100) as int2, 'fizz', 'buzz';
+INSERT INTO fizzbuzz_requests(int1, int2, str1, str2) SELECT generate_series(1,100) AS int1, generate_series(1, 100) as int2, 'fizz', 'buzz';
+INSERT INTO fizzbuzz_requests(int1, int2, str1, str2) SELECT generate_series(1,100) AS int1, generate_series(1, 100) as int2, 'fizz', 'buzz';
+
+/************************************************************/
+/* I used the following lines to debug the SQL performances */
+/************************************************************/
+
+/*
+EXPLAIN INSERT INTO fizzbuzz_requests(int1, int2, str1, str2) VALUES (2, 4, 'buzz', 'fizz');
+EXPLAIN SELECT count(id) as Hits, int1, int2, str1, str2 FROM fizzbuzz_requests GROUP BY int1, int2, str1, str2 ORDER BY Hits DESC;
+*/
