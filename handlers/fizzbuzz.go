@@ -23,6 +23,22 @@ func NewFizzBuzzHandler(c *app.Container) FizzBuzzHandler {
 	return h
 }
 
+// Handles calls to /fizzbuzz that requires 5 parameters
+//	- limit: integer
+//  - int1: integer
+//  - int2: integer
+//  - str1: string
+//  - str2: string
+//
+// It returns a list of strings with numbers from 1 to limit, where: all multiples of int1 are replaced by str1, all
+// multiples of int2 are replaced by str2, all multiples of int1 and int2 are replaced by str1str2.
+// See the fizzbuzz.Replace methods.
+//
+// It returns a 500 error code if
+//  - a parameter is missing
+//  - parameters that are integers are greater than int64 max value
+//
+// The parameters are save on each calls to be able to calculate how many hits exists.
 func (h *FizzBuzzHandler) Handle(w http.ResponseWriter, r *http.Request) {
 	if http.MethodGet != r.Method {
 		http.Error(w, "Only GET requests are allowed.", http.StatusMethodNotAllowed)
@@ -66,8 +82,9 @@ func (h *FizzBuzzHandler) Handle(w http.ResponseWriter, r *http.Request) {
 	fizzbuzzRequest := models.FizzbuzzRequest{0, int1, int2, str1, str2}
 
 	_, err = h.container.DB.CreateRequest(&fizzbuzzRequest)
+
 	// We don't return an http error here
-	// If the save of the fizzbuzz request fails we can send a response to the user anyway
+	// If the save of the fizzbuzz request fails we send the response to the user anyway
 	if err != nil {
 		log.Println(err.Error())
 	}
@@ -77,6 +94,7 @@ func (h *FizzBuzzHandler) Handle(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, strings.Join(n, ","))
 }
 
+// Generate a list of integers from 1 to limit
 func listGenerator(limit int) []int {
 	start := 1
 	l := make([]int, limit)

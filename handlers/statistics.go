@@ -17,6 +17,7 @@ func NewStatisticsHandler(c *app.Container) StatisticsHandler {
 	return h
 }
 
+// Return the list of fizzbuzz requests ordered by hits asc. has been.
 func (h *StatisticsHandler) Handle(w http.ResponseWriter, r *http.Request) {
 	var err error
 	if http.MethodGet != r.Method {
