@@ -49,7 +49,7 @@ func (h *FizzBuzzHandler) Handle(w http.ResponseWriter, r *http.Request) {
 
 	keys := r.URL.Query()
 
-	err = validate(keys)
+	err = checkParametersExists(keys, []string{"int1", "int2", "str1", "str2", "limit"})
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
@@ -107,9 +107,8 @@ func listGenerator(limit int) []int {
 	return l
 }
 
-// Validates that the values contained in the query of an url contains the required keys
-func validate(v url.Values) error {
-	keys := []string{"int1", "int2", "str1", "str2", "limit"}
+// Checks that the values contained in the query of an url contains the required keys
+func checkParametersExists(v url.Values, keys []string) error {
 	missingParams := []string{}
 
 	for _, key := range keys {
