@@ -9,10 +9,12 @@ CREATE TABLE fizzbuzz_requests (
 CREATE INDEX request ON fizzbuzz_requests (int1, int2, str1, str2);
 
 /* Populate the table with many values */
-INSERT INTO fizzbuzz_requests(int1, int2, str1, str2) SELECT generate_series(1,100) AS int1, generate_series(1, 100) as int2, 'fizz', 'buzz';
-INSERT INTO fizzbuzz_requests(int1, int2, str1, str2) SELECT generate_series(1,100) AS int1, generate_series(1, 100) as int2, 'fizz', 'buzz';
-INSERT INTO fizzbuzz_requests(int1, int2, str1, str2) SELECT generate_series(1,100) AS int1, generate_series(1, 100) as int2, 'fizz', 'buzz';
-
+DO $$
+BEGIN
+    FOR inserts IN 1..10 LOOP
+        INSERT INTO fizzbuzz_requests(int1, int2, str1, str2) SELECT generate_series(1,10) AS int1, generate_series(1, 10) as int2, 'fizz', 'buzz';
+    END LOOP;
+END; $$
 /************************************************************/
 /* I used the following lines to debug the SQL performances */
 /************************************************************/
