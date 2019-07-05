@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"errors"
 	"fmt"
 	"github.com/benja-M-1/thegoodcorner/app"
 	"github.com/benja-M-1/thegoodcorner/fizzbuzz"
@@ -120,7 +119,7 @@ func checkParametersExists(v url.Values, keys []string) error {
 	}
 
 	if len(missingParams) > 0 {
-		return errors.New(fmt.Sprintf("Missing '%v' parameter(s)", strings.Join(missingParams, ", ")))
+		return fmt.Errorf("Missing '%v' parameter(s)", strings.Join(missingParams, ", "))
 	}
 
 	return nil
