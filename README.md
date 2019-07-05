@@ -1,4 +1,4 @@
-# Fizzbuzz
+# Fizzbuzz [![Build Status](https://travis-ci.com/benja-M-1/thegoodcorner.svg?branch=master)](https://travis-ci.com/benja-M-1/thegoodcorner)
 
 The original fizz-buzz consists in writing all numbers from 1 to 100, and just replacing all multiples of 3 by “fizz”,
 all multiples of 5 by “buzz”, and all multiples of 15 by “fizzbuzz”. The output would look like this: 
@@ -43,3 +43,7 @@ Fetch the statistics on `/statistics`:
 ```bash
 curl -X GET http://localhost:80/statistics
 ```
+
+## Run the tests
+
+Simply run `make test`
