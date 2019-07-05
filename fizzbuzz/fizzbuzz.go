@@ -6,6 +6,7 @@ import (
 	"strconv"
 )
 
+// Replaces every multiples of a Request values by the corresponding string
 func Replace(numbers []int, request models.FizzbuzzRequest) []string {
 	replaced := make([]string, len(numbers))
 

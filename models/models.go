@@ -15,6 +15,7 @@ type DB struct {
 	*sql.DB
 }
 
+// Creates and return a new DB connection
 func NewDB(username string, password string, database string, hostname string, port string) (*DB, error) {
 	var err error
 

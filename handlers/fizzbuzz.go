@@ -55,6 +55,7 @@ func (h *FizzBuzzHandler) Handle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// @Todo The 3 following checks could be moved away here but I don't know yet how to send the right error message
 	int1, err := strconv.Atoi(keys.Get("int1"))
 	if err != nil {
 		log.Println(err.Error())
@@ -81,6 +82,7 @@ func (h *FizzBuzzHandler) Handle(w http.ResponseWriter, r *http.Request) {
 
 	fizzbuzzRequest := models.FizzbuzzRequest{0, int1, int2, str1, str2}
 
+	// @Todo Maybe this could be defered to speed up the response
 	_, err = h.container.DB.CreateRequest(&fizzbuzzRequest)
 
 	// We don't return an http error here
